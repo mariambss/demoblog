@@ -1,0 +1,24 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+
+<h1 class="display-4 text-center my-4">{{ title}}</h1>
+
+{# {{ }} -> double accolades, ce que l'on appel l'interpolation #}
+{# {% %} -> commande TWIG #}
+
+{% if age > 18 %}
+
+    <p>Tu es majeur !! </p>
+
+{% else %}
+
+    <p>Tu es mineur </p>
+
+{% endif %}
+
+bonjour a toutes et a toutes 
+bienvenue chez blablabla 
+site en cours 
+
+{% endblock %}
