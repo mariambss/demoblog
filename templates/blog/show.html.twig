@@ -9,22 +9,14 @@
 
 <div class="col-md-12">
     <div class="card mb-4 shadow-sm">
-      <img src="http://picsum.photos/1000/400" alt="">
+    {#replace() : filtre TWIG permettant de remplacer la hauteur/largeur dans l'URL de l'image  #}
+      <img src="{{article.image|replace ({'200/300':'1000/300'})}}">
       <div class="card-body">
-        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores 
-            dolore quaerat veritatis id culpa aliquam quia! Aperiam animi fugiat suscipit ipsam magni fuga maxime facere rem minus, sequi blanditiis et.</p>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius ipsum deserunt aliquam in? Harum earum quibusdam obcaecati quasi, in asperiores
-             doloremque perspiciatis, facilis repellat, suscipit voluptates eaque ipsam? Amet, repellat!
-        </p>
+        <p class="card-text">{{ article.content|raw|length > 10 }}</p>
       </div>
+      <small class="text-muted">{{ article.createdAt|date('d/m/Y') }} à {{ article.createdAt|date('H:i:s') }}</small>
+                
     </div>
   </div>
-
-
-
-
-
 
 {% endblock %}
