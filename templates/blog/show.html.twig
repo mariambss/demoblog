@@ -12,10 +12,10 @@
     {#replace() : filtre TWIG permettant de remplacer la hauteur/largeur dans l'URL de l'image  #}
       <img src="{{article.image|replace ({'200/300':'1000/300'})}}">
       <div class="card-body">
-        <p class="card-text">{{ article.content|raw|length > 10 }}</p>
+        <p class="card-text">{{ article.content|raw}}</p>
       </div>
       <small class="text-muted">{{ article.createdAt|date('d/m/Y') }} à {{ article.createdAt|date('H:i:s') }}</small>
-                
+      <small><a href="{{ path('blog_edit', {'id': article.id } ) }}" class="btn btn-dark ml-2 mb-2">EDIT</a><small>   
     </div>
   </div>
 
