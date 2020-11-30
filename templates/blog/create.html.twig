@@ -26,8 +26,10 @@
    {#{{ form(formArticle) }}#} 
 
     {{form_start(formArticle,{'attr':{'class': 'col-md-7 mx auto' } }) }} 
+
     
-        {{ form_row(formArticle.title, {'attr': {'placeholder': "Titre de l'article"}}) }}
+    
+        {{ form_row(formArticle.title, {'attr': {'placeholder': "Titre de l'article",}}) }}
 
         {{ form_row(formArticle.content, {'attr': {'placeholder' : "Contenu de l'article", "rows": 15}}) }}
 
