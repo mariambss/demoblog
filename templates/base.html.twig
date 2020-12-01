@@ -29,26 +29,43 @@
                 <li class="nav-item active">
                   <a class="nav-link" href="{{ path('blog') }}">blog <span class="sr-only">(current)</span></a>
                 </li>
+                {# si l'internaute n'est pas connecté, on lui propose de s'inscrire ou de se deco#}
+                {% if not app.user %}
+                <li class="nav-item active">
+                  <a class="nav-link" href="{{ path('security_login') }}">identifiez-vous</a>
+                </li>
                 <li class="nav-item active">
                   <a class="nav-link" href="{{ path('security_registration') }}">créer votre compte  <span class="sr-only">(current)</span></a>
                 </li>
+                {% endif %}
+                {# si l'internaute est co , il a la possibilité de mettre les nouveaux  article #}
+                {% if app.user %}
                 <li class="nav-item">
                   <a class="nav-link" href="{{ path('blog_create')}}">ajouter un article</a>
                 </li>
+                {% endif %}
+
+                {% if is_granted('ROLE_ADMIN') %}
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    categorie
+                    BACK OFFICE
                   </a>
                   <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="#">Article</a>
-                    <a class="dropdown-item" href="#">promotion</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">autres</a>
+                    <a class="dropdown-item" href="#">Gestion des articles</a>
+                    <a class="dropdown-item" href="#">Gestion des membres</a>
+                    <a class="dropdown-item" href="#">Gestion des commentaires</a>
+                    <a class="dropdown-item" href="#">Gestion des categories</a>
                   </div>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+
+                {% endif %}
+
+                {# si l'internaute est co , on lui propose le lien deco #}
+                {% if app.user %}
+                <li class="nav-item active">
+                  <a class="nav-link" href="{{ path('security_logout') }}">déconnexion</a>
                 </li>
+                {% endif %}
               </ul>
               <form class="form-inline my-2 my-lg-0">
                 <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
@@ -57,7 +74,7 @@
             </div>
           </nav>
 
-
+        {#{{dump(app.user) }}#}
         <div class="class container mon-conteneur">
         {% block body %}
 
