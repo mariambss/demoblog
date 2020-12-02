@@ -1,66 +1,84 @@
 {% extends "base.html.twig" %}
-
-{% block title %}MonBlog Symfony | Détail article {% endblock %}
-
+{% block title %}
+	MonBlog Symfony
+{% endblock %}
 
 {% block body %}
 
-<h1 class="display-4 text-center my-4">Detail de l'article</h1>
+	<div class="container">
 
-<div class="col-md-12">
-    <div class="card mb-4 shadow-sm">
-    {#replace() : filtre TWIG permettant de remplacer la hauteur/largeur dans l'URL de l'image  #}
-      <img src="{{article.image|replace ({'200/300':'1000/300'})}}">
-      <div class="card-body">
-        <p class="card-text">{{ article.content|raw}}</p>
-      </div>
-      <small class="text-muted">{{ article.createdAt|date('d/m/Y') }} à {{ article.createdAt|date('H:i:s') }} dans la categorie <strong>{{article.category.title}}</strong></small>
-      <small><a href="{{ path('blog_edit', {'id': article.id } ) }}" class="btn btn-dark ml-2 mb-2">EDIT</a></small>   
-    </div>
-  </div>
+	<h1 class="display-4 text-center my-1">{{article.title}}</h1>
 
 
-  <h4 class"mt-5 mb-3">Donner votre avis ...</h4>
+	<div class="col-md-12">
+		<div class="card mb-4 shadow-sm">
+			<img src="{{article.image|replace ({'200/300':'1000/300'})}}">
+			<br>
+			<h5 class="text-center">
+				<i>{{article.title}}</i>
+			</h5>
+			<div class="card-body">
+				<p class="card-text">{{article.content|raw}}</p>
+				<br>
+				<hr class="">
+				<small class="text-muted ml-2 mb-2">
+					Publié le :
+					{{ article.createdAt|date('d/m/y') }}
+					à
+					{{ article.createdAt|date('H:i:s') }}
+					dans la catégorie
+					{{ article.category.title}}
 
-  {% for message in app.flashes('success') %} 
-  <div class="col-md-7 bg-success p-3 rounded mx-auto text-center text-right">
-      {{ message}}
-  </div>
+				</small>
+				<br>
+				{% if is_granted('ROLE_ADMIN') %}
+					<small>
+						<a href="{{path('blog_edit', {'id':article.id})}}" class="btn btn-dark ml-2 mb-2">EDIT</a>
+					</small>
+				{% endif %}
+				<hr>
+			</div>
+		</div>
+	</div>
 
-  {% endfor %}
+	{% if is_granted('ROLE_USER') %}
+		<h4 class="mt-5 mb-3">Donner votre avis...</h4>
+		{% for message in app.flashes('success') %}
+			<div class="col-md-7 bg success p-2 rounded mx-auto text-center">
+				{{message}}
+			</div>
+		{% endfor %}
 
-  {{ form_start(formComment)}}
+		{{ form_start(formComment) }}
+		{# {{ form_row(formComment.author, {'label':"Nom d'utilisateur"}) }} #}
+		{{ form_row(formComment.content, {'label':"Saisir votre commentaire"}) }}
+		<button type="submit" class="btn btn-dark">Poster le commentaire</button>
+		{{ form_end(formComment) }}
+	{% endif %}
 
-    {{ form_start(formComment.author,{'label' : "Nom d'utilisateur"})}}
+	<h4 class="mt-5 mb-3">Vos réactions...</h4>
+	<div class="row mb-5">
+		{% for data  in article.comments %}
 
-    {{ form_start(formComment.content, {'label': "Saisir votre commentaire"})}}
+			<div class="col-md-4 py-2">
+				<span>
+					<strong>{{ data.author }}</strong>
+				</span>
+				<small class="font-italic">Posté le
+					{{ data.createdAt |date('d/m/Y') }}
+					à
+					{{ data.createdAt |date('H:i:s') }}
+				</small>
+			</div>
+			<div class="col-md-8 border py-2">
+				{{ data.content |striptags }}
 
-    <button type "submit" class="btn btn-dark" >poster le commentaire</button>
-
-
-
-  {{ form_end(formComment)}}
-
-
-
-  <h4 class"mt-5 mb-3">Vos réactions...</h4>
-  <div class="row mb-5">
-      {% for data in article.comments %}
-
-        <div class="col-md-4 border py-2">
-          <span>{{ data.author }}</span>
-          <small class="text-muted">posté le {{ article.createdAt|date('d/m/Y') }} à {{ article.createdAt|date('H:i:s') }}</small>
-        </div>
-        <div class="col-md-8 border py-2">
-            {{data.content|striptags }}
-        </div>
-      {% endfor %}
-
-  </div>
+			</div>
 
 
+		{% endfor %}
+	</div>
 
-
-
+	</div>
 
 {% endblock %}
